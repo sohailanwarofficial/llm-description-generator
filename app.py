@@ -3,9 +3,19 @@ from pydantic import BaseModel
 import uvicorn
 from llama_cpp import Llama
 import os
+from fastapi.middleware.cors import CORSMiddleware  # Add this import
 
 # Create FastAPI app
 app = FastAPI(title="Description Generator")
+
+# Add CORS middleware to allow cross-origin requests
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
+)
 
 # Model path - will look for the model file in the models directory
 MODEL_PATH = os.environ.get("MODEL_PATH", "./models/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf")
